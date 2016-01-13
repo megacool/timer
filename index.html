@@ -78,6 +78,7 @@
 		var defaultStartTime = 300;
 		var timesRemaining = [];
 		var currentPlayer = 0;
+		var previousPlayers = [];
 		var countdownTimer;
 		var gameState = 'adding-players';
 
@@ -131,6 +132,25 @@
 			scoreboard.innerHTML = html;
 		}
 
+		function setPlayersFromPrevious(previousPlayerIndex) {
+			players = previousPlayers[previousPlayerIndex];
+			timesRemaining = [];
+			for (var i = 0; i < players.length; i++) {
+				timesRemaining.push(defaultStartTime);
+			}
+			renderView();
+		}
+
+		function loadPreviousPlayers () {
+			previousPlayers = JSON.parse(localStorage.getItem('previousPlayers') || []);
+			html = '';
+			console.log("Loaded previous players:", previousPlayers);
+			for (var i = 0; i < previousPlayers.length; i++) {
+				html += '<li><button onclick="setPlayersFromPrevious(' + i + ')">Load players</button> ' + previousPlayers[i].join(", ") + '</li>';
+			}
+			document.getElementById('previousPlayers').innerHTML = html;
+		}
+
 		function formatPlayer(playerNumber) {
 			var formattedPlayer = players[playerNumber];
 			if (playerNumber == currentPlayer) {
@@ -140,12 +160,39 @@
 		}
 
 		function startGame(){
+			document.getElementById('previousPlayers').style.display = 'none';
 			gameState = 'playing';
 			renderView();
 			countdownTimer = setInterval(function(){
 				timesRemaining[currentPlayer] -= 1;
 				renderView();
 			}, 1000);
+			savePlayers(players);
+		}
+
+		function savePlayers (players) {
+			console.log("Saving players");
+			var previousPlayers = JSON.parse(localStorage.getItem('previousPlayers') || '[]');
+
+			previousPlayers.splice(0, 0, players);
+			previousPlayers = removeDuplicates(previousPlayers);
+			previousPlayers = previousPlayers.slice(0, 3);
+			// Truncate to only store last three sets of players
+			localStorage.setItem('previousPlayers', JSON.stringify(previousPlayers));
+		}
+
+		function removeDuplicates(listOflists) {
+			var uniqueElements = [];
+			var foundElements = [];
+			listOflists.forEach(function (list) {
+				var listAsString = '' + list;
+				console.log("Checking for ", listAsString);
+				if (foundElements.indexOf(listAsString) === -1) {
+					foundElements.push(listAsString);
+					uniqueElements.push(list);
+				}
+			});
+			return uniqueElements;
 		}
 
 		function nextPlayer(){
@@ -177,11 +224,16 @@
 			gameState = 'ready';
 			renderView();
 		}
+
+		window.onload = loadPreviousPlayers;
 	</script>
 </head>
 <body>
 
 	<div class="player-wrapper">
+		<ul id="previousPlayers">
+		</ul>
+
 		<table id="players">
 		</table>
 
