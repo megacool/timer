@@ -92,13 +92,14 @@
 		function formatTime(totalSeconds){
 			var sign = totalSeconds < 0 ? '-' : '';
 			var minutes = Math.floor(Math.abs(totalSeconds) / 60);
-			var seconds = Math.abs(totalSeconds % 60)
+			var seconds = Math.abs(totalSeconds % 60);
 			if (seconds < 10) {
 				seconds = "0" + seconds;
 			}
 			var formattedTime = sign + minutes + ":" + seconds;
 			if (totalSeconds < 30) {
-				formattedTime = '<span class="warning">' + formattedTime + '</span>';
+				formattedTime = '<span class="warning">' + formattedTime +
+					'</span>';
 			}
 			return formattedTime;
 		}
