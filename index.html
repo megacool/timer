@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		.warning {
+			color: #FF4136;
+			font-weight: bold;
+		}
+	</style>
+	<script type="text/javascript">
+		var players = [];
+		var defaultStartTime = 3;
+		var timesRemaining = [];
+		var currentPlayer = 0;
+		var countdownTimer;
+		var gameState = 'adding-players';
+		
+		function addPlayer(){
+			var nameField = document.getElementById("name-field");
+			var playerName = nameField.value;
+			nameField.value = '';
+			players.push(playerName);
+			timesRemaining.push(defaultStartTime);
+			renderView();
+			return false;
+		}
+
+		function renderView() {
+			var startButton = document.getElementById('start-button');
+			var resetButton = document.getElementById('reset-button');
+			var nextButton = document.getElementById('next-button');
+			var addPlayerForm = document.getElementById('add-player-form');
+
+			switch (gameState) {
+				case 'playing':
+					startButton.style.visibility = 'hidden';
+					resetButton.style.visibility = 'visible';
+					nextButton.style.visibility = 'visible';
+					addPlayerForm.style.visibility = 'hidden';
+					break;
+				case 'ready':
+					startButton.style.visibility = 'visible';
+					nextButton.style.visibility = 'hidden';
+					resetButton.style.visibility = 'hidden';
+			}
+
+			updateScoreboard();
+		}
+
+		function updateScoreboard() {
+			var scoreboard = document.getElementById("players");
+			var html = "";
+			for(var i = 0; i < players.length; i++){
+				var playerTime = timesRemaining[i];
+				var formattedName = formatPlayer(i);
+				var formattedTime = formatTime(playerTime);
+
+				html += "<li>" + formattedName + " " + formattedTime + "</li>";
+			}
+			scoreboard.innerHTML = html;
+		}
+
+		function formatPlayer(playerNumber) {
+			var formattedPlayer = players[playerNumber];
+			if (playerNumber == currentPlayer) {
+				formattedPlayer = '<strong>' + formattedPlayer + '</strong>';
+			}
+			return formattedPlayer;
+		}
+
+		function startGame(){
+			gameState = 'playing';
+			renderView();
+			countdownTimer = setInterval(function(){
+				timesRemaining[currentPlayer] -= 1;
+				renderView();
+			}, 1000);
+		}
+
+		function nextPlayer(){
+			currentPlayer = (currentPlayer +1) % players.length;
+			timesRemaining[currentPlayer] += 3;
+			renderView();
+		}
+
+		function formatTime(totalSeconds){
+			var sign = totalSeconds < 0 ? '-' : '';
+			var minutes = Math.floor(Math.abs(totalSeconds) / 60);
+			var seconds = Math.abs(totalSeconds % 60)
+			if (seconds < 10) {
+				seconds = "0" + seconds;
+			}
+			var formattedTime = sign + minutes + ":" + seconds;
+			if (totalSeconds < 30) {
+				formattedTime = '<span class="warning">' + formattedTime + '</span>';
+			}
+			return formattedTime;
+		}
+
+		function resetGame() {
+			for (var i = 0; i < players.length; i++) {
+				timesRemaining[i] = defaultStartTime;
+			}
+			clearInterval(countdownTimer);
+			gameState = 'ready';
+			renderView();
+		}
+	</script>
+</head>
+<body>
+	<form id="add-player-form" onsubmit="return addPlayer()">
+		<input id="name-field" name="name" placeholder="Player name">
+		<input type="submit" value="Add Player">
+	</form>
+
+	<button id="start-button"
+			onclick="startGame()">
+		Start
+	</button>
+	
+	<button id='next-button'
+			onclick="nextPlayer()"
+			style="visibility: hidden;">
+		Next
+	</button>
+
+	<button id="reset-button"
+			onclick="resetGame()"
+			style="visibility: hidden;">
+		Reset
+	</button>
+
+	<ul id="players">
+	</ul>
+</body>
+</html>
