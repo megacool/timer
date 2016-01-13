@@ -106,8 +106,8 @@
 					addPlayerForm.style.display = 'none';
 					break;
 				case 'ready':
-					startButton.style.visibility = 'visible';
-					nextButton.disabled = true;
+					startButton.disabled = false;
+					nextButton.disabled = false;
 					resetButton.disabled = true;
 			}
 
@@ -258,8 +258,7 @@
 
 	<button id='next-button'
 			onclick="nextPlayer()"
-			class="btn"
-			disabled>
+			class="btn">
 		NEXT
 	</button>
 </body>
