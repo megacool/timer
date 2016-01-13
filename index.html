@@ -115,10 +115,16 @@
 	</script>
 </head>
 <body>
-	<form id="add-player-form" onsubmit="return addPlayer()">
-		<input id="name-field" name="name" placeholder="Player name">
-		<input type="submit" value="Add Player">
-	</form>
+
+	<div class="player-wrapper">
+		<ul id="players">
+		</ul>
+
+		<form id="add-player-form" onsubmit="return addPlayer()">
+			<input id="name-field" name="name" placeholder="Player name">
+			<input type="submit" value="Add Player">
+		</form>
+	</div>
 
 	<button id="start-button"
 			onclick="startGame()">
@@ -137,7 +143,5 @@
 		Reset
 	</button>
 
-	<ul id="players">
-	</ul>
 </body>
 </html>
