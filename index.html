@@ -34,15 +34,15 @@
 
 			switch (gameState) {
 				case 'playing':
-					startButton.style.visibility = 'hidden';
-					resetButton.style.visibility = 'visible';
-					nextButton.style.visibility = 'visible';
-					addPlayerForm.style.visibility = 'hidden';
+					startButton.disabled = true;
+					resetButton.disabled = false;
+					nextButton.disabled = false;
+					addPlayerForm.style.display = 'none';
 					break;
 				case 'ready':
 					startButton.style.visibility = 'visible';
-					nextButton.style.visibility = 'hidden';
-					resetButton.style.visibility = 'hidden';
+					nextButton.disabled = true;
+					resetButton.disabled = true;
 			}
 
 			updateScoreboard();
@@ -126,13 +126,13 @@
 	
 	<button id='next-button'
 			onclick="nextPlayer()"
-			style="visibility: hidden;">
+                       disabled>
 		Next
 	</button>
 
 	<button id="reset-button"
 			onclick="resetGame()"
-			style="visibility: hidden;">
+			disabled>
 		Reset
 	</button>
 
