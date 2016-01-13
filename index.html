@@ -61,7 +61,7 @@
 				var formattedName = formatPlayer(i);
 				var formattedTime = formatTime(playerTime);
 
-				html += "<li>" + formattedName + " " + formattedTime + "</li>";
+				html += "<tr><td>" + formattedName + "</td><td>" + formattedTime + "</td></tr>";
 			}
 			scoreboard.innerHTML = html;
 		}
@@ -117,8 +117,8 @@
 <body>
 
 	<div class="player-wrapper">
-		<ul id="players">
-		</ul>
+		<table id="players">
+		</table>
 
 		<form id="add-player-form" onsubmit="return addPlayer()">
 			<input id="name-field" name="name" placeholder="Player name">
