@@ -46,6 +46,11 @@
 			}
 
 			updateScoreboard();
+
+			// Scroll player div to current player
+			var alignWithTop = false;
+			var activePlayer = document.getElementById('active-player');
+			activePlayer.scrollIntoView(alignWithTop);
 		}
 
 		function updateScoreboard() {
@@ -64,7 +69,7 @@
 		function formatPlayer(playerNumber) {
 			var formattedPlayer = players[playerNumber];
 			if (playerNumber == currentPlayer) {
-				formattedPlayer = '<strong>' + formattedPlayer + '</strong>';
+				formattedPlayer = '<strong id="active-player">' + formattedPlayer + '</strong>';
 			}
 			return formattedPlayer;
 		}
