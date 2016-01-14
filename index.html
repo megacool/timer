@@ -202,7 +202,7 @@
 
         function nextPlayer(){
             currentPlayer = (currentPlayer +1) % players.length;
-            if (countdownTimer) {
+            if (gameState === 'playing') {
                 timesRemaining[currentPlayer] += 3;
             }
             renderView();
@@ -228,7 +228,6 @@
                 timesRemaining[i] = defaultStartTime;
             }
             clearInterval(countdownTimer);
-            countdownTimer = null;
             gameState = 'ready';
             renderView();
         }
