@@ -153,7 +153,9 @@
             previousPlayers = JSON.parse(localStorage.getItem('previousPlayers') || []);
             html = '';
             for (var i = 0; i < previousPlayers.length; i++) {
-                html += '<li><button onclick="setPlayersFromPrevious(' + i + ')">Load players</button> ' + previousPlayers[i].join(", ") + '</li>';
+                html += '<li><button onclick="setPlayersFromPrevious(' + i +
+                    ')">Load players</button> ' + previousPlayers[i].join(", ") +
+                    '</li>';
             }
             document.getElementById('previousPlayers').innerHTML = html;
         }
@@ -161,7 +163,8 @@
         function formatPlayer(playerNumber) {
             var formattedPlayer = players[playerNumber];
             if (playerNumber == currentPlayer) {
-                formattedPlayer = '<strong id="active-player">' + formattedPlayer + '</strong>';
+                formattedPlayer = '<strong id="active-player">' + formattedPlayer +
+                    '</strong>';
             }
             return formattedPlayer;
         }
