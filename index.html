@@ -111,8 +111,10 @@
             }
 
             updateScoreboard();
+            scrollActivePlayerIntoView();
+        }
 
-            // Scroll player div to current player
+        function scrollActivePlayerIntoView() {
             var alignWithTop = false;
             var activePlayer = document.getElementById('active-player');
             activePlayer.scrollIntoView(alignWithTop);
