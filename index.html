@@ -96,20 +96,18 @@
         function renderView() {
             var startButton = document.getElementById('start-button');
             var resetButton = document.getElementById('reset-button');
-            var nextButton = document.getElementById('next-button');
             var addPlayerForm = document.getElementById('add-player-form');
 
             switch (gameState) {
                 case 'playing':
                     startButton.disabled = true;
                     resetButton.disabled = false;
-                    nextButton.disabled = false;
                     addPlayerForm.style.display = 'none';
                     break;
                 case 'ready':
                     startButton.disabled = false;
-                    nextButton.disabled = false;
                     resetButton.disabled = true;
+                    break;
             }
 
             updateScoreboard();
