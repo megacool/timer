@@ -152,7 +152,6 @@
         function loadPreviousPlayers () {
             previousPlayers = JSON.parse(localStorage.getItem('previousPlayers') || []);
             html = '';
-            console.log("Loaded previous players:", previousPlayers);
             for (var i = 0; i < previousPlayers.length; i++) {
                 html += '<li><button onclick="setPlayersFromPrevious(' + i + ')">Load players</button> ' + previousPlayers[i].join(", ") + '</li>';
             }
@@ -179,7 +178,6 @@
         }
 
         function savePlayers (players) {
-            console.log("Saving players");
             var previousPlayers = JSON.parse(localStorage.getItem('previousPlayers') || '[]');
 
             previousPlayers.splice(0, 0, players);
@@ -194,7 +192,6 @@
             var foundElements = [];
             listOflists.forEach(function (list) {
                 var listAsString = '' + list;
-                console.log("Checking for ", listAsString);
                 if (foundElements.indexOf(listAsString) === -1) {
                     foundElements.push(listAsString);
                     uniqueElements.push(list);
