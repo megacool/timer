@@ -112,6 +112,13 @@
 
             updateScoreboard();
             scrollActivePlayerIntoView();
+            scrollAddPlayerFormIntoView();
+        }
+
+        function scrollAddPlayerFormIntoView() {
+            var alignWithTop = false;
+            var addPlayerForm = document.getElementById('add-player-form');
+            addPlayerForm.scrollIntoView(alignWithTop);
         }
 
         function scrollActivePlayerIntoView() {
