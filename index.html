@@ -185,8 +185,8 @@
 
             previousPlayers.splice(0, 0, players);
             previousPlayers = removeDuplicates(previousPlayers);
-            previousPlayers = previousPlayers.slice(0, 3);
             // Truncate to only store last three sets of players
+            previousPlayers = previousPlayers.slice(0, 3);
             localStorage.setItem('previousPlayers', JSON.stringify(previousPlayers));
         }
 
