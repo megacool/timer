@@ -150,18 +150,24 @@
         }
 
         function loadPreviousPlayers () {
-            previousPlayers = JSON.parse(localStorage.getItem('previousPlayers') || []);
+            previousPlayers = JSON.parse(localStorage.getItem('previousPlayers') || '[]');
             html = '';
             for (var i = 0; i < previousPlayers.length; i++) {
                 html += '<li><button onclick="setPlayersFromPrevious(' + i +
-                    ')">Load players</button> ' + previousPlayers[i].join(", ") +
-                    '</li>';
+                    ')">Load players</button> ';
+                for (var j = 0; j < previousPlayers[i].length; j++) {
+                    html += escapeHtml(previousPlayers[i][j]);
+                    if (j !== previousPlayers[i].length - 1) {
+                        html += ', ';
+                    }
+                }
+                html += '</li>';
             }
             document.getElementById('previousPlayers').innerHTML = html;
         }
 
         function formatPlayer(playerNumber) {
-            var formattedPlayer = players[playerNumber];
+            var formattedPlayer = escapeHtml(players[playerNumber]);
             if (playerNumber == currentPlayer) {
                 formattedPlayer = '<strong id="active-player">' + formattedPlayer +
                     '</strong>';
@@ -209,6 +215,24 @@
                 timesRemaining[currentPlayer] += 3;
             }
             renderView();
+        }
+
+        function escapeHtml(untrusted) {
+            return untrusted
+                .replaceAll(/["'&<>]/g, function (substring) {
+                    switch (substring.charCodeAt(0)) {
+                      case 34: // "
+                        return '&quot;'
+                      case 39: // '
+                        return '&#39;'
+                      case 38: // &
+                        return '&amp;'
+                      case 60: // <
+                        return '&lt;'
+                      case 62: // >
+                        return '&gt;'
+                    }
+                });
         }
 
         function formatTime(totalSeconds){
